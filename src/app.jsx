@@ -1,20 +1,25 @@
 import Formularios from './components/Formularios.jsx'
-//import Listas from './components/Listas.jsx'
-/*import Parrafo from './components/Parrafo.jsx'
+import Listas from './components/Listas.jsx'
+import Parrafo from './components/Parrafo.jsx'
 import Variables from './components/Variables.jsx'
 import Eventos from './components/Eventos.jsx'
-import Contador from './components/Contador.jsx'*/
+import Contador from './components/Contador.jsx'
 export function App() {
 
   return (
-	  <div className="container mt-5">
+	  <>
 	  <h1>Hello World! Preact</h1>
-	  {/* <Parrafo />
+	   <Parrafo />
+	   <hr/>
 		  <Variables />
+	   <hr/>
 		  <Eventos />
-	  // <Listas /> 
-		  <Contador />*/}
+	   <hr/>
+	   <Listas /> 
+	   <hr/>
+	  <Contador />
+	   <hr/>
 	  <Formularios />
-	  </div>
+	  </>
   )
 }

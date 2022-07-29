@@ -3,6 +3,15 @@ const Formularios = () => {
 
 	const [fruta, setFruta] = useState('')
 	const [descripcion, setDescripcion] = useState('')
+	const [lista, setLista] = useState([
+
+		
+
+
+	])
+
+        console.log(lista)
+
 	const guardarDatos = (e) => {
 	 e.preventDefault()
 		if (!fruta.trim()) {
@@ -14,10 +23,15 @@ const Formularios = () => {
 			return
 		}
 
-	 console.log('procesando datos...' + fruta ,  descripcion)
 		e.target.reset()
+		setLista( [...lista, 
+			{"name" : fruta,
+			 "descripcion": descripcion
+			}]
+		)
 		setFruta('')
 		setDescripcion('')
+		console.log(lista.map(object =>object))
 	}
 	return (
 	 <>
@@ -29,6 +43,9 @@ const Formularios = () => {
 		  <button class="btn btn-primary btn-block" type ="submit">Agregar</button>
 
 		</form>
+		<ul>
+			{lista.map((object) => <div><li> <h3> Nombre: {object.name} </h3> <br/>  <p> Descripcion: {object.descripcion} </p></li> </div>)}
+		</ul>
 	 </>
 	)
 }
