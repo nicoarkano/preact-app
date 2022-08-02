@@ -18,7 +18,6 @@ export function App() {
             </ul>
           </div>
           <div className="col-4">
-            {" "}
             <h4 className="text-center">Formulario</h4>
             <form>
               <input
@@ -26,7 +25,8 @@ export function App() {
                 className="form-control mb-2"
                 placeholder="ingrese tarea"
               />
-            </form>
+			  <button className="btn btn-dark btn-sm col-12" type="submit">Agregar</button>
+			</form>
           </div>
         </div>
       </div>
