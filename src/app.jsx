@@ -6,15 +6,18 @@ export function App() {
   const [tareas, setTareas] = useState([]);
   const [modoEdicion, setModoEdicion] = useState(false);
   const [id, setId] = useState("");
+  const [error, setError] = useState(null);
   const agregarTarea = (e) => {
     e.preventDefault();
     if (!tarea.trim()) {
+      setError("Escriba algo por favor...");
       return;
     }
     //use Shortid for create a aleator ID
     setTareas([...tareas, { id: shortid.generate(), nombreTarea: tarea }]);
 
     setTarea("");
+    setError(null);
   };
 
   const eliminarElemento = (id) => {
@@ -32,13 +35,17 @@ export function App() {
   const editarTarea = (e) => {
     e.preventDefault();
     if (!tarea.trim()) {
-      console.log("este elemento esta vacio");
+      setError("Escriba algo por favor...");
       return;
     }
     const arrayEditado = tareas.map((item) =>
       item.id === id ? { id, nombreTarea: tarea } : item
     );
     setTareas(arrayEditado);
+    setTarea("");
+    setId("");
+    setModoEdicion(false);
+    setError(null);
   };
 
   return (
@@ -50,23 +57,27 @@ export function App() {
           <div class="col-8">
             <h4 class="text-center">Lista de Tareas</h4>
             <ul class="list-group">
-              {tareas.map((task) => (
-                <li class="list-group-item" key={task.id}>
-                  <span className="lead">{task.nombreTarea}</span>
-                  <button
-                    class="btn btn-danger btn-sm float-end mx-2"
-                    onClick={() => eliminarElemento(task.id)}
-                  >
-                    Eliminar
-                  </button>
-                  <button
-                    class="btn btn-warning btn-sm float-end"
-                    onClick={() => editar(task)}
-                  >
-                    Editar
-                  </button>
-                </li>
-              ))}
+              {tareas.length === 0 ? (
+                <li className="list-group-item"> No hay tareas</li>
+              ) : (
+                tareas.map((task) => (
+                  <li class="list-group-item" key={task.id}>
+                    <span className="lead">{task.nombreTarea}</span>
+                    <button
+                      class="btn btn-danger btn-sm float-end mx-2"
+                      onClick={() => eliminarElemento(task.id)}
+                    >
+                      Eliminar
+                    </button>
+                    <button
+                      class="btn btn-warning btn-sm float-end"
+                      onClick={() => editar(task)}
+                    >
+                      Editar
+                    </button>
+                  </li>
+                ))
+              )}
             </ul>
           </div>
           <div className="col-4">
@@ -74,6 +85,7 @@ export function App() {
               {modoEdicion ? "Editar Tarea" : "Agregar Tarea"}
             </h4>
             <form onSubmit={modoEdicion ? editarTarea : agregarTarea}>
+              {error ? <span className="text-danger">{error}</span> : null}
               <input
                 type="text"
                 className="form-control mb-2"
