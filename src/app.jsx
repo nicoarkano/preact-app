@@ -1,25 +1,30 @@
+//This is a Preact App has a smaller diference with react
 import { useState } from "preact/hooks";
-import shortid from 'shortid'
+import shortid from "shortid";
 export function App() {
   const [tarea, setTarea] = useState("");
   const [tareas, setTareas] = useState([]);
+  const [modoEdicion, setModoEdicion] = useState(false);
   const agregarTarea = (e) => {
     e.preventDefault();
     if (!tarea.trim()) {
-      console.log("Este elemento esta vacio");
       return;
     }
-
+    //use Shortid for create a aleator ID
     setTareas([...tareas, { id: shortid.generate(), nombreTarea: tarea }]);
 
     setTarea("");
   };
-  console.log(tareas);
 
   const eliminarElemento = (id) => {
     console.log(id);
     const arrayFiltrado = tareas.filter((filterTask) => filterTask.id !== id);
     setTareas(arrayFiltrado);
+  };
+
+  const editar = (task) => {
+    setModoEdicion(true);
+    setTarea(task.nombreTarea);
   };
 
   return (
@@ -40,7 +45,10 @@ export function App() {
                   >
                     Eliminar
                   </button>
-                  <button class="btn btn-warning btn-sm float-end">
+                  <button
+                    class="btn btn-warning btn-sm float-end"
+                    onClick={() => editar(task)}
+                  >
                     Editar
                   </button>
                 </li>
@@ -48,7 +56,9 @@ export function App() {
             </ul>
           </div>
           <div className="col-4">
-            <h4 className="text-center">Formulario</h4>
+            <h4 className="text-center">
+              {modoEdicion ? "Editar Tarea" : "Agregar Tarea"}
+            </h4>
             <form onSubmit={agregarTarea}>
               <input
                 type="text"
@@ -57,9 +67,15 @@ export function App() {
                 onchange={(e) => setTarea(e.target.value)}
                 value={tarea}
               />
-              <button className="btn btn-dark btn-sm col-12" type="submit">
-                Agregar
-              </button>
+              {modoEdicion ? (
+                <button className="btn btn-warning btn-sm col-12" type="submit">
+                  Editar
+                </button>
+              ) : (
+                <button className="btn btn-dark btn-sm col-12" type="submit">
+                  Agregar
+                </button>
+              )}
             </form>
           </div>
         </div>
